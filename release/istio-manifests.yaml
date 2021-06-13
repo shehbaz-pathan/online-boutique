@@ -1,0 +1,61 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: onlineboutique-gateway
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "onlineboutique.example.com"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: online-boutique-route
+spec:
+  hosts:
+  - "onlineboutique.example.com"
+  gateways:
+  - onlineboutique-gateway
+  http:
+  - name: frontend-v1-routes
+    match:
+    - uri:
+        prefix: "/"  
+    route:
+    - destination:
+        host: frontend.default.svc.cluster.local
+        subset: v1
+        port:
+          number: 80
+      weight: 70
+  - name: frontend-v2-routes
+    match:
+    - uri:
+        prefix: "/"  
+    route:
+    - destination:
+        host: frontend.default.svc.cluster.local
+        subset: v2
+        port:
+          number: 80
+      weight: 30
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: frontend-rule
+spec:
+  host: frontend
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
