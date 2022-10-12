@@ -402,7 +402,7 @@ Generated ca, csr, cert, key using below openssl commands
 
 ```
 
-openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example.com.key -out example.com.crt
+openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=selfCA/CN=example.com' -keyout example.com.key -out example.com.crt
 
 openssl req -out onlineboutique.example.com.csr -newkey rsa:2048 -nodes -keyout onlineboutique.example.com.key -subj "/CN=onlineboutique.example.com/O=example.com organization"
 
