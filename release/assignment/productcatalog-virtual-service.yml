@@ -10,7 +10,7 @@ spec:
            delay:
              fixedDelay: 5s
              percentage:
-                     value: 20
+                     value: 50
        route:
           - destination:
                 host: productcatalogservice
